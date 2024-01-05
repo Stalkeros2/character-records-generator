@@ -205,6 +205,81 @@ namespace CharacterRecordsGenerator
             return recordText.ToString();
         }
 
+        private string MakeMaintenanceRecords()
+        {
+            var recordText = new StringBuilder();
+            if (_commonRecords.IsEmpty())
+                MakeCommonRecords();
+
+            recordText.Append(_commonRecords);
+
+            // TODO: make this less horrible
+            if (!_MaintenanceAllergies.Any() &&
+                !_MaintenanceCurrentPrescriptions.Any() &&
+                !_MaintenanceHistory.Any() &&
+                !_MaintenanceSurgicalHistory.Any() &&
+                !_MaintenancePhysicalEvaluations.Any() &&
+                !_MaintenancePsychEvaluations.Any() &&
+                !_MaintenancePsychDisorders.Any() &&
+                !_MaintenancePostmortem.Any() &&
+                !_targetRecord.NoBorg &&
+                !_targetRecord.NoProsthetic &&
+                !_targetRecord.NoRevive)
+            {
+                recordText.AppendLine("/// NO Maintenance RECORD FOUND ///");
+                recordText.AppendLine();
+            }
+            else
+            {
+                recordText.AppendLine("/// Maintenance RECORD ///");
+                recordText.AppendLine("The following information is protected by doctor-patient confidentiality laws. Do not release without patient's consent.");
+                recordText.AppendLine();
+
+                if (_targetRecord.NoBorg || _targetRecord.NoProsthetic || _targetRecord.NoRevive)
+                {
+                    recordText.AppendLine("OPT-OUTS:");
+
+                    if (_targetRecord.NoBorg)
+                        MakeMaintenanceNote(ref recordText, "DO NOT BORGIFY");
+                    if (_targetRecord.NoProsthetic)
+                        MakeMaintenanceNote(ref recordText, "DO NOT INSTALL PROSTHETICS");
+                    if (_targetRecord.NoRevive)
+                        MakeMaintenanceNote(ref recordText, "DO NOT REVIVE");
+
+                    recordText.AppendLine();
+                }
+
+                WriteSectionIfAny(ref recordText,
+                    "POSTMORTEM INSTRUCTIONS:",
+                    _MaintenancePostmortem);
+                WriteSectionIfAny(ref recordText,
+                    "ALLERGIES:",
+                     _MaintenanceAllergies);
+                WriteSectionIfAny(ref recordText,
+                    "Current Prescriptions:",
+                    _MaintenanceCurrentPrescriptions);
+                WriteSectionIfAny(ref recordText,
+                    "Surgical History:",
+                    _MaintenanceSurgicalHistory);
+                WriteSectionIfAny(ref recordText,
+                    "Medication History:",
+                    _MaintenanceHistory);
+                WriteSectionIfAny(ref recordText,
+                    "Physical Evaluations:",
+                    _MaintenancePhysicalEvaluations);   
+                WriteSectionIfAny(ref recordText,
+                    "Documented Psychological Disorders:",
+                    _MaintenancePsychDisorders);
+                WriteSectionIfAny(ref recordText,
+                    "Psychological Evaluations:",
+                    _MaintenancePsychEvaluations);
+
+
+            }
+            recordText.AppendLine($"LAST UPDATED: {Utility.HumanisedDate(Info.IcDate)}");
+            return recordText.ToString();
+        }
+
         private string MakeSecurityRecords()
         {
             var recordText = new StringBuilder();

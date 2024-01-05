@@ -115,7 +115,7 @@ namespace CharacterRecordsGenerator
         /// <summary>
         /// The current in-character date.
         /// </summary>
-        public static DateTime IcDate => new DateTime(DateTime.Now.Year + 442,
+        public static DateTime IcDate => new DateTime(DateTime.Now.Year + 540,
             DateTime.Now.Month,
             DateTime.Now.Day);
     }

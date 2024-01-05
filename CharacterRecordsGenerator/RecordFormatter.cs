@@ -26,6 +26,15 @@ namespace CharacterRecordsGenerator
         private IList<string> _MedicalPsychDisorders;
         private IList<string> _MedicalPsychEvaluations;
 
+        private IList<string> _MaintenancePostmortem;
+        private IList<string> _MaintenanceAllergies;
+        private IList<string> _MaintenanceCurrentPrescriptions;
+        private IList<string> _MaintenanceHistory;
+        private IList<string> _MaintenanceSurgicalHistory;
+        private IList<string> _MaintenancePhysicalEvaluations;
+        private IList<string> _MaintenancePsychDisorders;
+        private IList<string> _MaintenancePsychEvaluations;
+
         private IList<string> _securityRecords;
         private IList<string> _securityNotes;
         private IList<string> _securityAttitudeScc;
@@ -53,6 +62,16 @@ namespace CharacterRecordsGenerator
             _MedicalPsychDisorders = _targetRecord.MedicalPsychDisorders?.LineSplit();
             _MedicalPsychEvaluations = _targetRecord.MedicalPsychEvaluations?.LineSplit();
 
+            // Maintenance
+            _MaintenancePostmortem = _targetRecord.MaintenancePostmortem?.LineSplit();
+            _MaintenanceAllergies = _targetRecord.MaintenanceAllergies?.LineSplit();
+            _MaintenanceCurrentPrescriptions = _targetRecord.MaintenanceCurrentPrescriptions?.LineSplit();
+            _MaintenanceHistory = _targetRecord.MaintenanceHistory?.LineSplit();
+            _MaintenanceSurgicalHistory = _targetRecord.MaintenanceSurgicalHistory?.LineSplit();
+            _MaintenancePhysicalEvaluations = _targetRecord.MaintenancePhysicalEvaluations?.LineSplit();
+            _MaintenancePsychDisorders = _targetRecord.MaintenancePsychDisorders?.LineSplit();
+            _MaintenancePsychEvaluations = _targetRecord.MaintenancePsychEvaluations?.LineSplit();
+
             // security
             _securityRecords = _targetRecord.SecurityRecords?.LineSplit();
             _securityNotes = _targetRecord.SecurityNotes?.LineSplit();
@@ -70,6 +89,7 @@ namespace CharacterRecordsGenerator
 
         public string EmploymentRecords => MakeEmploymentRecords();
         public string MedicalRecords => MakeMedicalRecords();
+        public string MaintenanceRecords => MakeMaintenanceRecords();
         public string SecurityRecords => MakeSecurityRecords();
 
         private string _commonRecords;
